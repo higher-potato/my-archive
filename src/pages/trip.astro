@@ -1,0 +1,36 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<!doctype html>
+<html lang="ko">
+	<head>
+		<BaseHead title="Trip" description="여행 기록" />
+	</head>
+	<body>
+		<Header />
+		<main>
+			<h1>Trip</h1>
+			<p class="empty">아직 기록된 여행이 없습니다.</p>
+		</main>
+		<Footer />
+	</body>
+</html>
+<style>
+	main {
+		max-width: 720px;
+		margin: 0 auto;
+		padding: 4em 1em;
+	}
+	h1 {
+		font-size: 1.2em;
+		font-weight: 600;
+		margin-bottom: 2em;
+	}
+	.empty {
+		color: #999;
+		font-size: 0.9em;
+	}
+</style>

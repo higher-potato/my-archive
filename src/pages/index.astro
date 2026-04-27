@@ -1,49 +1,55 @@
 ---
 import BaseHead from '../components/BaseHead.astro';
-import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import Footer from '../components/Footer.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="ko">
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
 	</head>
 	<body>
 		<Header />
 		<main>
-			<h1>🧑‍🚀 Hello, Astronaut!</h1>
-			<p>
-				Welcome to the official <a href="https://astro.build/">Astro</a> blog starter template. This template
-				serves as a lightweight, minimally-styled starting point for anyone looking to build a personal
-				website, blog, or portfolio with Astro.
-			</p>
-			<p>
-				This template comes with a few integrations already configured in your
-				<code>astro.config.mjs</code> file. You can customize your setup with
-				<a href="https://astro.build/integrations">Astro Integrations</a> to add tools like Tailwind,
-				React, or Vue to your project.
-			</p>
-			<p>Here are a few ideas on how to get started with the template:</p>
-			<ul>
-				<li>Edit this page in <code>src/pages/index.astro</code></li>
-				<li>Edit the site header items in <code>src/components/Header.astro</code></li>
-				<li>Add your name to the footer in <code>src/components/Footer.astro</code></li>
-				<li>Check out the included blog posts in <code>src/content/blog/</code></li>
-				<li>Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code></li>
-			</ul>
-			<p>
-				Have fun! If you get stuck, remember to
-				<a href="https://docs.astro.build/">read the docs</a>
-				or <a href="https://astro.build/chat">join us on Discord</a> to ask questions.
-			</p>
-			<p>
-				Looking for a blog template with a bit more personality? Check out
-				<a href="https://github.com/Charca/astro-blog-template">astro-blog-template</a>
-				by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-			</p>
+			<section class="about">
+				<div class="block">
+					<h2>About</h2>
+					<p>걷고, 보고, 듣고, 읽는 것을 좋아합니다. 하나를 깊게 좋아하기보다는 관심이 많아 이것저것 부지런히 기웃거립니다. 어렸을때부터 꿈은 넓고 깊은 취향을 가지는 것이었는데 돌아보니 얕고 넓은 취향을 가진 사람이 된 것 같습니다. 아마 궁금한게 많아 앞으로도 쭉 그렇지 않을까 싶네요.</p>
+				</div>
+				<div class="block">
+					<h2>Archive</h2>
+					<p>보는 건 많은데, 나이가 드니 기억하는데 한계가 있는 것 같다는 생각을 종종하게 되는 요즘입니다. 어떤 마음으로 어떤 것들을 보고 듣고 생각하며 지나왔는지 가볍게 기록해둡니다.</p>
+				</div>
+			</section>
 		</main>
 		<Footer />
 	</body>
 </html>
+<style>
+	main {
+		max-width: 720px;
+		margin: 0 auto;
+		padding: 4em 1em;
+	}
+	.about {
+		display: flex;
+		flex-direction: column;
+		gap: 3em;
+	}
+	.block h2 {
+		font-size: 0.8em;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		color: #999;
+		margin-bottom: 0.8em;
+		font-weight: 500;
+	}
+	.block p {
+		font-size: 1em;
+		line-height: 1.9;
+		color: #333;
+		margin: 0;
+	}
+</style>
