@@ -2,12 +2,17 @@
 
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
-import { defineConfig, fontProviders } from 'astro/config';
+import { defineConfig, fontProviders, envField } from 'astro/config';
 
 // https://astro.build/config
 export default defineConfig({
-	site: 'https://example.com',
+	site: 'https://wlivefor.netlify.app',
 	integrations: [mdx(), sitemap()],
+	env: {
+		schema: {
+			ALADIN_TTB_KEY: envField.string({ context: 'server', access: 'secret', optional: true }),
+		},
+	},
 	fonts: [
 		{
 			provider: fontProviders.local(),

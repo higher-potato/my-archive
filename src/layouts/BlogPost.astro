@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
+import { ALADIN_TTB_KEY } from 'astro:env/server';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
@@ -8,49 +9,92 @@ import Header from '../components/Header.astro';
 
 type Props = CollectionEntry<'blog'>['data'];
 
-const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage, category, author, rating, isbn } = Astro.props;
+
+let coverUrl: string | undefined;
+const ttbKey = ALADIN_TTB_KEY;
+if (ttbKey) {
+	try {
+		if (isbn) {
+			// ISBN으로 정확하게 검색
+			const res = await fetch(
+				`https://www.aladin.co.kr/ttb/api/ItemLookUp.aspx?ttbkey=${ttbKey}&itemIdType=ISBN13&ItemId=${isbn}&output=js&Version=20131101`
+			);
+			const data = await res.json();
+			if (data.item && data.item[0]) {
+				coverUrl = data.item[0].cover.replace('coversum', 'cover');
+			}
+		} else if (category === '책') {
+			// 제목으로 검색 (책 카테고리일 때만)
+			const query = encodeURIComponent(title.replace(/[『』]/g, '').trim());
+			const res = await fetch(
+				`https://www.aladin.co.kr/ttb/api/ItemSearch.aspx?ttbkey=${ttbKey}&Query=${query}&QueryType=Title&MaxResults=1&output=js&Version=20131101`
+			);
+			const data = await res.json();
+			if (data.item && data.item[0]) {
+				coverUrl = data.item[0].cover.replace('coversum', 'cover');
+			}
+		}
+	} catch (e) {
+		// 이미지 불러오기 실패 시 무시
+	}
+}
 ---
 
-<html lang="en">
+<html lang="ko">
 	<head>
 		<BaseHead title={title} description={description} />
 		<style>
 			main {
-				width: calc(100% - 2em);
-				max-width: 100%;
-				margin: 0;
-			}
-			.hero-image {
-				width: 100%;
-			}
-			.hero-image img {
-				display: block;
+				max-width: 720px;
 				margin: 0 auto;
-				border-radius: 12px;
-				box-shadow: var(--box-shadow);
+				padding: 4em 1em;
 			}
-			.prose {
-				width: 720px;
-				max-width: calc(100% - 2em);
-				margin: auto;
-				padding: 1em;
-				color: rgb(var(--gray-dark));
-			}
-			.title {
+			.meta {
+				display: flex;
+				align-items: center;
+				gap: 0.8em;
 				margin-bottom: 1em;
-				padding: 1em 0;
-				text-align: center;
-				line-height: 1;
 			}
-			.title h1 {
-				margin: 0 0 0.5em 0;
+			.category {
+				font-size: 0.75em;
+				background: #EBEF76;
+				padding: 0.2em 0.6em;
+				border-radius: 2px;
+				color: #333;
 			}
 			.date {
-				margin-bottom: 0.5em;
-				color: rgb(var(--gray));
+				font-size: 0.8em;
+				color: #999;
 			}
-			.last-updated-on {
-				font-style: italic;
+			h1 {
+				font-size: 1.4em;
+				font-weight: 700;
+				line-height: 1.4;
+				margin: 0 0 0.4em 0;
+			}
+			.author {
+				font-size: 0.85em;
+				color: #777;
+				margin-bottom: 1.5em;
+			}
+			.hero-image {
+				margin-bottom: 2.5em;
+			}
+			.hero-image img {
+				width: 120px;
+				height: auto;
+				border-radius: 4px;
+				box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+			}
+			hr {
+				margin: 2em 0;
+				border: none;
+				border-top: 1px solid rgba(0,0,0,0.07);
+			}
+			.prose {
+				color: rgb(var(--gray-dark));
+				line-height: 1.9;
 			}
 		</style>
 	</head>
@@ -59,24 +103,24 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 		<Header />
 		<main>
 			<article>
-				<div class="hero-image">
-					{heroImage && <Image width={1020} height={510} src={heroImage} alt="" />}
+				<div class="meta">
+					{category && <span class="category">{category}</span>}
+					<span class="date"><FormattedDate date={pubDate} /></span>
 				</div>
-				<div class="prose">
-					<div class="title">
-						<div class="date">
-							<FormattedDate date={pubDate} />
-							{
-								updatedDate && (
-									<div class="last-updated-on">
-										Last updated on <FormattedDate date={updatedDate} />
-									</div>
-								)
-							}
-						</div>
-						<h1>{title}</h1>
-						<hr />
+				<h1>{title}</h1>
+				{author && <p class="author">{author}</p>}
+				{coverUrl && (
+					<div class="hero-image">
+						<img src={coverUrl} alt={title} />
 					</div>
+				)}
+				{!coverUrl && heroImage && (
+					<div class="hero-image">
+						<Image width={360} height={480} src={heroImage} alt="" />
+					</div>
+				)}
+				<hr />
+				<div class="prose">
 					<slot />
 				</div>
 			</article>
