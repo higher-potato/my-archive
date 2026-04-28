@@ -12,6 +12,7 @@ type Props = CollectionEntry<'blog'>['data'];
 const { title, description, pubDate, updatedDate, heroImage, category, author, rating, isbn } = Astro.props;
 
 let coverUrl: string | undefined;
+let fetchedAuthor: string | undefined;
 const ttbKey = ALADIN_TTB_KEY;
 if (ttbKey) {
 	try {
@@ -23,8 +24,9 @@ if (ttbKey) {
 			const data = await res.json();
 			if (data.item && data.item[0]) {
 				coverUrl = data.item[0].cover.replace('coversum', 'cover');
+				fetchedAuthor = data.item[0].author.replace(/\s*\(.*?\)/g, '').trim();
 			}
-		} else if (category === '책') {
+		} else if (category === '책' || (Array.isArray(category) && category.includes('책'))) {
 			// 제목으로 검색 (책 카테고리일 때만)
 			const query = encodeURIComponent(title.replace(/[『』]/g, '').trim());
 			const res = await fetch(
@@ -33,12 +35,15 @@ if (ttbKey) {
 			const data = await res.json();
 			if (data.item && data.item[0]) {
 				coverUrl = data.item[0].cover.replace('coversum', 'cover');
+				fetchedAuthor = data.item[0].author.replace(/\s*\(.*?\)/g, '').trim();
 			}
 		}
 	} catch (e) {
 		// 이미지 불러오기 실패 시 무시
 	}
 }
+
+const displayAuthor = author || fetchedAuthor;
 ---
 
 <html lang="ko">
@@ -96,6 +101,12 @@ if (ttbKey) {
 				color: rgb(var(--gray-dark));
 				line-height: 1.9;
 			}
+			.prose > :global(p:first-child) {
+				font-size: 1.1em;
+				font-weight: 700;
+				color: #222;
+			}
+		
 		</style>
 	</head>
 
@@ -104,11 +115,13 @@ if (ttbKey) {
 		<main>
 			<article>
 				<div class="meta">
-					{category && <span class="category">{category}</span>}
+					{category && (Array.isArray(category) ? category : [category]).map(cat => (
+						<span class="category">{cat}</span>
+					))}
 					<span class="date"><FormattedDate date={pubDate} /></span>
 				</div>
 				<h1>{title}</h1>
-				{author && <p class="author">{author}</p>}
+				{displayAuthor && <p class="author">{displayAuthor}</p>}
 				{coverUrl && (
 					<div class="hero-image">
 						<img src={coverUrl} alt={title} />

@@ -5,7 +5,6 @@ pubDate: '2025-12-09'
 author: '이상헌'
 category: '책'
 rating: 4
-heroImage: '../../assets/blog-placeholder-1.jpg'
 ---
 
 삶은 숫자 너머에 있다.
