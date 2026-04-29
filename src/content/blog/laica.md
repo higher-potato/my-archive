@@ -1,5 +1,5 @@
 ---
-title: '『라이카』
+title: '『라이카』'
 description: '라이카와 어린왕자는 이용당했다…'
 pubDate: '2025-03-28'
 category: ['책', '뮤지컬']
