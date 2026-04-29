@@ -14,6 +14,9 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 		<Header />
 		<main>
 			<section class="about">
+				<div class="photo">
+					<img src="/2023 Osaka.jpg" alt="photo" />
+				</div>
 				<div class="block">
 					<h2>About</h2>
 					<p>걷고, 보고, 듣고, 읽는 것을 좋아합니다. 하나를 깊게 좋아하기보다는 관심이 많아 이것저것 부지런히 기웃거립니다. 어렸을때부터 꿈은 넓고 깊은 취향을 가지는 것이었는데 돌아보니 얕고 넓은 취향을 가진 사람이 된 것 같습니다. 아마 궁금한게 많아 앞으로도 쭉 그렇지 않을까 싶네요.</p>
@@ -51,5 +54,11 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 		line-height: 1.9;
 		color: #333;
 		margin: 0;
+	}
+	.photo img {
+		width: 100%;
+		max-height: 400px;
+		object-fit: cover;
+		border-radius: 6px;
 	}
 </style>
