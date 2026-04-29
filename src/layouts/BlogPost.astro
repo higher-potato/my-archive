@@ -9,7 +9,7 @@ import Header from '../components/Header.astro';
 
 type Props = CollectionEntry<'blog'>['data'];
 
-const { title, description, pubDate, updatedDate, heroImage, category, author, rating, isbn } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage, category, author, rating, isbn, posterImage } = Astro.props;
 
 let coverUrl: string | undefined;
 let fetchedAuthor: string | undefined;
@@ -83,10 +83,12 @@ const displayAuthor = author || fetchedAuthor;
 				color: #777;
 				margin-bottom: 1.5em;
 			}
-			.hero-image {
+			.images {
+				display: flex;
+				gap: 1em;
 				margin-bottom: 2.5em;
 			}
-			.hero-image img {
+			.images img {
 				width: 120px;
 				height: auto;
 				border-radius: 4px;
@@ -122,16 +124,11 @@ const displayAuthor = author || fetchedAuthor;
 				</div>
 				<h1>{title}</h1>
 				{displayAuthor && <p class="author">{displayAuthor}</p>}
-				{coverUrl && (
-					<div class="hero-image">
-						<img src={coverUrl} alt={title} />
-					</div>
-				)}
-				{!coverUrl && heroImage && (
-					<div class="hero-image">
-						<Image width={360} height={480} src={heroImage} alt="" />
-					</div>
-				)}
+				<div class="images">
+					{coverUrl && <img src={coverUrl} alt={title} />}
+					{!coverUrl && heroImage && <Image width={360} height={480} src={heroImage} alt="" />}
+					{posterImage && <img src={posterImage} alt={`${title} 포스터`} />}
+				</div>
 				<hr />
 				<div class="prose">
 					<slot />

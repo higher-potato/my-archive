@@ -4,6 +4,7 @@ description: '서로가 서로의 이유가 되는 삶이란 얼마나 소중한
 pubDate: '2024-12-01'
 category: ['책', '뮤지컬']
 rating: 4
+posterImage: 'https://ticketimage.interpark.com/Play/image/large/25/25018118_p.gif'
 ---
 
 서로가 서로의 이유가 되는 삶이란 얼마나 소중한 것일까

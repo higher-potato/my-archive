@@ -18,6 +18,7 @@ const blog = defineCollection({
 			author: z.string().optional(),
 			rating: z.number().optional(),
 			isbn: z.string().optional(),
+			posterImage: z.string().optional(),
 		}),
 });
 
