@@ -4,6 +4,7 @@ description: '라이카와 어린왕자는 이용당했다…'
 pubDate: '2025-03-28'
 category: ['책', '뮤지컬']
 rating: 4
+isbn: '9788961707404'
 posterImage: 'https://ticketimage.interpark.com/Play/image/large/25/25001462_p.gif'
 ---
 
